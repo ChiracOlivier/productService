@@ -37,7 +37,7 @@ public class ProductController {
     }
     @PostMapping("/Products")
     public String addNewProduct(@RequestBody Product product){
-        Productservice.save(product);
+        Productservice.saveAndFlush(product);
         return "good save";
     }
 }
