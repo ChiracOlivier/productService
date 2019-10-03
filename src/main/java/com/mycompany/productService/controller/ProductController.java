@@ -12,4 +12,9 @@ public class ProductController {
     public String TakeProduct(){
         return "Welcome to me Chirac";
     }
+
+    @GetMapping("/Products")
+    public Product getProduct(){
+
+    }
 }
