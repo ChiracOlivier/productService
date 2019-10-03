@@ -2,8 +2,9 @@ package com.mycompany.productService.controller;
 
 
 import com.mycompany.productService.entities.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.mycompany.productService.services.ProductJPARepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 @RestController
 public class ProductController {
 
+    @Autowired
+    public ProductJPARepository Productservice;
 
     @GetMapping("/PageAcceuil")
     public String TakeProduct(){
@@ -19,14 +22,22 @@ public class ProductController {
      // Jackson turns POJO's in JSON
     @GetMapping("/Products")
     public List<Product> getProduct(){
-       Product myProduct= new Product(1,"salu", 10);
-        Product myProducts= new Product(2,"slut", 1000);
-        Product myProduc= new Product(3,"salut", 100);
-        List<Product> Products = new ArrayList<>();
-        Products.add(myProduct);
-        Products.add(myProducts);
-        Products.add(myProduc);
 
-       return Products;
+       return Productservice.findAll();
+    }
+
+    @GetMapping("/Products/{Id}")
+    public Product getProductById(@PathVariable int Id){
+        return Productservice.findById(Id).get();
+    }
+    @DeleteMapping("/Products/{Id}")
+    public  String deleteProductById(@PathVariable int Id){
+          Productservice.deleteById(Id);
+          return "good delete";
+    }
+    @PostMapping("/Products")
+    public String addNewProduct(@RequestBody Product product){
+        Productservice.save(product);
+        return "good save";
     }
 }
